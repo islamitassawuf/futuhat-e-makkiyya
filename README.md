@@ -6,7 +6,7 @@ A multi-language digital edition featuring the complete 561 chapters in Arabic, 
 
 ## 🌐 Live Website
 
-Visit: [https://taha23hasnain.github.io/futuhat-makkiyya](https://taha23hasnain.github.io/futuhat-makkiyya)
+Visit: [https://taha23hasnain.github.io/futuhat-e-makkiyya](https://taha23hasnain.github.io/futuhat-e-makkiyya)
 
 ## 📖 Features
 
@@ -20,16 +20,15 @@ Visit: [https://taha23hasnain.github.io/futuhat-makkiyya](https://taha23hasnain.
 
 ## 🚀 Deployment to GitHub Pages
 
-1. Create a new GitHub repository (e.g., `futuhat-makkiyya`)
+1. Create a new GitHub repository (e.g., `futuhat-e-makkiyya`)
 
-2. Push the `website` folder contents:
+2. Push the repository contents:
    ```bash
-   cd website
    git init
    git add .
    git commit -m "Initial commit"
    git branch -M main
-   git remote add origin https://github.com/YOUR_USERNAME/futuhat-makkiyya.git
+   git remote add origin https://github.com/taha23hasnain/futuhat-e-makkiyya.git
    git push -u origin main
    ```
 
@@ -39,27 +38,26 @@ Visit: [https://taha23hasnain.github.io/futuhat-makkiyya](https://taha23hasnain.
    - Branch: `main` / `root`
    - Click Save
 
-4. Your site will be live at `https://YOUR_USERNAME.github.io/futuhat-makkiyya`
+4. Your site will be live at `https://taha23hasnain.github.io/futuhat-e-makkiyya`
 
 ## 📁 Structure
 
 ```
-website/
-├── index.html          # Main HTML file
-├── data/
-│   ├── index.json      # Chapter index (titles only)
-│   └── baab_XXX.json   # Individual chapter files (0-560)
-└── export_to_json.py   # Script to regenerate JSON from SQLite
+futuhat-e-makkiyya/
+├── index.html          # Main HTML file with the reader application
+├── README.md           # This documentation file
+└── data/
+    ├── index.json      # Chapter index (titles only)
+    └── baab_XXX.json   # Individual chapter files (baab_000.json to baab_560.json)
 ```
 
-## 🔄 Updating Translations
+### Data Files
 
-If you update the SQLite database, regenerate the JSON files:
-
-```bash
-cd website
-python export_to_json.py
-```
+- **index.json**: Contains the chapter index with titles in all four languages
+- **baab_XXX.json**: 561 individual chapter files (numbered 000-560), each containing:
+  - Chapter ID
+  - Title in Arabic, English, Urdu, and Farsi
+  - Full content in all four languages (with Arabic as the original text)
 
 ## ⚠️ Disclaimer
 
