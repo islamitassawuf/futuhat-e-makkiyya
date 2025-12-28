@@ -1,0 +1,1128 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>الفتوحات المكية | Al-Futuhat al-Makkiyya</title>
+    <meta name="description" content="The Meccan Revelations by Shaykh al-Akbar Muhyi al-Din Ibn Arabi - Multi-language edition">
+    
+    <!-- Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Amiri:ital,wght@0,400;0,700;1,400;1,700&family=Noto+Nastaliq+Urdu:wght@400;700&family=Scheherazade+New:wght@400;700&family=Merriweather:ital,wght@0,300;0,400;0,700;1,400&display=swap" rel="stylesheet">
+    
+    <!-- Markdown Parser -->
+    <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+    
+    <style>
+        :root {
+            --primary-color: #1e3a5f;
+            --secondary-color: #2c5282;
+            --accent-color: #e6a817;
+            --bg-color: #f7f9fc;
+            --text-color: #1a202c;
+            --border-color: #cbd5e0;
+            --shadow: 0 2px 12px rgba(30, 58, 95, 0.08);
+            --panel-bg: white;
+            --ui-font: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+        }
+        
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+        
+        body {
+            font-family: 'Amiri', 'Scheherazade New', serif;
+            background-color: var(--bg-color);
+            color: var(--text-color);
+            line-height: 1.8;
+            min-height: 100vh;
+        }
+        
+        /* Header */
+        header {
+            background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+            color: white;
+            padding: 1rem 2rem;
+            box-shadow: var(--shadow);
+        }
+        
+        .header-content {
+            max-width: 1800px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 1rem;
+        }
+        
+        .header-title h1 {
+            font-family: 'Amiri', serif;
+            font-size: 1.6rem;
+            margin-bottom: 0.25rem;
+            font-weight: 700;
+        }
+        
+        .subtitle {
+            font-family: var(--ui-font);
+            font-size: 0.85rem;
+            opacity: 0.9;
+            font-style: normal;
+            font-weight: 400;
+            letter-spacing: 0.02em;
+        }
+        
+        /* Controls */
+        .controls {
+            background: white;
+            padding: 0.75rem 2rem;
+            border-bottom: 1px solid var(--border-color);
+            box-shadow: var(--shadow);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            direction: ltr;
+        }
+        
+        .controls-inner {
+            max-width: 1800px;
+            margin: 0 auto;
+            display: flex;
+            gap: 1.5rem;
+            flex-wrap: wrap;
+            align-items: center;
+            justify-content: flex-start;
+        }
+        
+        .controls-left {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            flex: 1;
+        }
+        
+        .controls-right {
+            display: flex;
+            align-items: center;
+            gap: 1.5rem;
+        }
+        
+        .control-group {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+        
+        .control-group label {
+            font-family: var(--ui-font);
+            font-size: 0.8rem;
+            color: #4a5568;
+            font-weight: 500;
+            white-space: nowrap;
+            text-transform: uppercase;
+            letter-spacing: 0.04em;
+        }
+        
+        select {
+            font-family: var(--ui-font);
+            font-size: 0.9rem;
+            padding: 0.5rem 1rem;
+            border: 1px solid var(--border-color);
+            border-radius: 8px;
+            background: white;
+            color: var(--text-color);
+            cursor: pointer;
+            transition: all 0.2s;
+            font-weight: 500;
+        }
+        
+        select:hover, select:focus {
+            border-color: var(--secondary-color);
+            box-shadow: 0 0 0 3px rgba(44, 82, 130, 0.1);
+            outline: none;
+        }
+        
+        #baab-select {
+            min-width: 350px;
+        }
+        
+        .divider {
+            width: 1px;
+            height: 28px;
+            background: var(--border-color);
+        }
+        
+        /* Mode toggle */
+        .mode-toggle {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+        
+        .mode-btn {
+            font-family: var(--ui-font);
+            font-size: 0.8rem;
+            padding: 0.5rem 1rem;
+            border: 1px solid var(--border-color);
+            border-radius: 8px;
+            background: white;
+            color: var(--text-color);
+            cursor: pointer;
+            transition: all 0.2s;
+            font-weight: 500;
+        }
+        
+        .mode-btn:hover {
+            border-color: var(--secondary-color);
+            background: #f7fafc;
+        }
+        
+        .mode-btn.active {
+            background: var(--primary-color);
+            color: white;
+            border-color: var(--primary-color);
+            box-shadow: 0 2px 4px rgba(30, 58, 95, 0.2);
+        }
+        
+        /* Navigation buttons */
+        .nav-buttons {
+            display: flex;
+            gap: 0.5rem;
+        }
+        
+        .nav-btn {
+            font-family: var(--ui-font);
+            font-size: 0.85rem;
+            padding: 0.5rem 1rem;
+            border: 1px solid var(--border-color);
+            border-radius: 8px;
+            background: white;
+            color: var(--text-color);
+            cursor: pointer;
+            transition: all 0.2s;
+            font-weight: 500;
+        }
+        
+        .nav-btn:hover:not(:disabled) {
+            background: var(--primary-color);
+            color: white;
+            border-color: var(--primary-color);
+        }
+        
+        .nav-btn:disabled {
+            opacity: 0.4;
+            cursor: not-allowed;
+        }
+        
+        /* Sync scroll toggle */
+        .sync-toggle {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            font-family: var(--ui-font);
+            font-size: 0.8rem;
+            font-weight: 500;
+            color: #4a5568;
+        }
+        
+        .sync-toggle input {
+            width: 16px;
+            height: 16px;
+            cursor: pointer;
+            accent-color: var(--primary-color);
+        }
+        
+        /* Font size selector */
+        .font-select {
+            font-family: var(--ui-font);
+            font-size: 0.8rem;
+            padding: 0.3rem 0.5rem;
+            border: 1px solid var(--border-color);
+            border-radius: 6px;
+            background: white;
+            cursor: pointer;
+            min-width: 50px;
+        }
+        
+        .font-control {
+            display: flex;
+            align-items: center;
+            gap: 0.3rem;
+            font-family: var(--ui-font);
+            font-size: 0.75rem;
+            color: #64748b;
+        }
+        
+        /* Width toggle button */
+        .width-toggle {
+            font-family: var(--ui-font);
+            font-size: 0.8rem;
+            padding: 0.4rem 0.8rem;
+            border: 1px solid var(--border-color);
+            border-radius: 8px;
+            background: white;
+            color: var(--text-color);
+            cursor: pointer;
+            transition: all 0.2s;
+            font-weight: 500;
+        }
+        
+        .width-toggle:hover {
+            border-color: var(--secondary-color);
+            background: #f7fafc;
+        }
+        
+        .width-toggle.active {
+            background: var(--secondary-color);
+            color: white;
+            border-color: var(--secondary-color);
+        }
+        
+        /* Main content - Single mode */
+        main {
+            max-width: 1800px;
+            margin: 1.5rem auto;
+            padding: 0 1rem;
+        }
+        
+        .single-view {
+            max-width: 1200px;
+            margin: 0 auto;
+            transition: max-width 0.3s ease;
+        }
+        
+        .single-view.full-width {
+            max-width: 100%;
+        }
+        
+        /* Font size classes */
+        .font-small .content { font-size: 1rem; }
+        .font-medium .content { font-size: 1.15rem; }
+        .font-large .content { font-size: 1.35rem; }
+        .font-xlarge .content { font-size: 1.55rem; }
+        
+        /* Side by side mode */
+        .side-by-side {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 1.5rem;
+        }
+        
+        .panel {
+            background: var(--panel-bg);
+            border-radius: 12px;
+            box-shadow: var(--shadow);
+            border: 1px solid var(--border-color);
+            display: flex;
+            flex-direction: column;
+            max-height: calc(100vh - 180px);
+        }
+        
+        .panel-header {
+            padding: 0.75rem 1.5rem;
+            border-bottom: 1px solid var(--border-color);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background: #f8fafc;
+            border-radius: 12px 12px 0 0;
+            flex-shrink: 0;
+        }
+        
+        .panel-header select {
+            font-size: 0.85rem;
+            padding: 0.4rem 0.8rem;
+        }
+        
+        .panel-title {
+            font-family: var(--ui-font);
+            font-size: 0.8rem;
+            font-weight: 600;
+            color: var(--secondary-color);
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+        }
+        
+        .panel-content {
+            padding: 1.5rem;
+            overflow-y: auto;
+            flex: 1;
+        }
+        
+        /* Content card for single view */
+        .content-card {
+            background: white;
+            border-radius: 12px;
+            box-shadow: var(--shadow);
+            padding: 2rem 3rem;
+            border: 1px solid var(--border-color);
+        }
+        
+        .chapter-title {
+            font-size: 1.4rem;
+            color: var(--primary-color);
+            margin-bottom: 1rem;
+            padding-bottom: 0.75rem;
+            border-bottom: 2px solid var(--accent-color);
+            text-align: center;
+        }
+        
+        .chapter-meta {
+            text-align: center;
+            font-size: 0.85rem;
+            color: #666;
+            margin-bottom: 1rem;
+        }
+        
+        .content {
+            font-size: 1.15rem;
+            text-align: justify;
+        }
+        
+        /* Markdown styles */
+        .content h1, .content h2, .content h3 {
+            color: var(--primary-color);
+            margin: 1.5rem 0 1rem;
+        }
+        
+        .content h2 {
+            font-size: 1.3rem;
+            border-bottom: 1px solid var(--border-color);
+            padding-bottom: 0.5rem;
+        }
+        
+        .content p {
+            margin-bottom: 1rem;
+        }
+        
+        .content blockquote {
+            margin: 1.5rem 0;
+            padding: 1rem 1.5rem;
+            background: linear-gradient(135deg, #f5f3ed, #ebe7db);
+            border-right: 4px solid var(--accent-color);
+            border-radius: 0 8px 8px 0;
+            font-style: italic;
+        }
+        
+        .content ul, .content ol {
+            margin: 1rem 0;
+            padding-right: 2rem;
+        }
+        
+        .content li {
+            margin-bottom: 0.5rem;
+        }
+        
+        /* Language-specific styles */
+        .lang-en {
+            direction: ltr;
+            text-align: left;
+            font-family: 'Merriweather', 'Georgia', serif;
+        }
+        
+        .lang-en .content blockquote {
+            border-right: none;
+            border-left: 4px solid var(--accent-color);
+            border-radius: 8px 0 0 8px;
+        }
+        
+        .lang-en .content ul, .lang-en .content ol {
+            padding-right: 0;
+            padding-left: 2rem;
+        }
+        
+        .lang-ur .content {
+            font-family: 'Noto Nastaliq Urdu', 'Amiri', serif;
+            line-height: 2.2;
+        }
+        
+        .lang-fa .content {
+            font-family: 'Scheherazade New', 'Amiri', serif;
+        }
+        
+        .lang-ar {
+            direction: rtl;
+            text-align: right;
+        }
+        
+        .lang-ur, .lang-fa {
+            direction: rtl;
+            text-align: right;
+        }
+        
+        /* Loading state */
+        .loading {
+            text-align: center;
+            padding: 3rem;
+            color: #666;
+        }
+        
+        .loading::after {
+            content: '';
+            display: inline-block;
+            width: 20px;
+            height: 20px;
+            border: 3px solid var(--border-color);
+            border-top-color: var(--accent-color);
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+            margin-right: 0.5rem;
+            vertical-align: middle;
+        }
+        
+        @keyframes spin {
+            to { transform: rotate(360deg); }
+        }
+        
+        /* Footer */
+        footer {
+            text-align: center;
+            padding: 2rem;
+            color: #64748b;
+            font-family: var(--ui-font);
+            font-size: 0.85rem;
+            border-top: 1px solid var(--border-color);
+            margin-top: 2rem;
+            background: #f8fafc;
+            direction: ltr;
+        }
+        
+        footer strong {
+            font-family: 'Amiri', serif;
+            font-size: 1.1rem;
+            color: var(--primary-color);
+        }
+        
+        footer a {
+            color: var(--secondary-color);
+            text-decoration: none;
+        }
+        
+        footer a:hover {
+            text-decoration: underline;
+        }
+        
+        /* Hide elements based on mode */
+        body.single-mode .side-by-side { display: none; }
+        body.single-mode .single-view { display: block; }
+        body.single-mode .panel-controls { display: none; }
+        body.single-mode .sync-toggle { display: none; }
+        
+        body.side-mode .side-by-side { display: grid; }
+        body.side-mode .single-view { display: none; }
+        body.side-mode .single-lang-control { display: none; }
+        
+        /* Responsive */
+        @media (max-width: 1200px) {
+            .side-by-side {
+                grid-template-columns: 1fr;
+            }
+            
+            .panel {
+                max-height: none;
+            }
+        }
+        
+        @media (max-width: 768px) {
+            header {
+                padding: 0.75rem 1rem;
+            }
+            
+            .header-title h1 {
+                font-size: 1.3rem;
+            }
+            
+            .controls {
+                padding: 0.5rem 1rem;
+            }
+            
+            .controls-inner {
+                flex-direction: column;
+                align-items: stretch;
+            }
+            
+            select, #baab-select {
+                min-width: 100%;
+            }
+            
+            .controls-left, .controls-right {
+                flex-direction: column;
+                width: 100%;
+                gap: 0.75rem;
+            }
+            
+            .control-group {
+                width: 100%;
+                flex-direction: column;
+                align-items: stretch;
+            }
+            
+            .divider {
+                display: none;
+            }
+            
+            .mode-toggle, .nav-buttons {
+                justify-content: center;
+                width: 100%;
+            }
+            
+            main {
+                padding: 0 0.5rem;
+            }
+            
+            .content-card, .panel-content {
+                padding: 1rem;
+            }
+            
+            .content {
+                font-size: 1rem;
+            }
+        }
+    </style>
+</head>
+<body class="single-mode">
+    <header>
+        <div class="header-content">
+            <div class="header-title">
+                <h1>الفتوحات المكية</h1>
+                <p class="subtitle">The Meccan Revelations — Ibn Arabi (d. 638 AH / 1240 CE)</p>
+            </div>
+        </div>
+    </header>
+    
+    <div class="controls">
+        <div class="controls-inner">
+            <div class="controls-left">
+                <div class="control-group">
+                    <label for="baab-select">Chapter:</label>
+                    <select id="baab-select">
+                        <option value="">Loading...</option>
+                    </select>
+                </div>
+                
+                <div class="nav-buttons">
+                    <button class="nav-btn" id="prev-btn" title="Previous Chapter">◀ Prev</button>
+                    <button class="nav-btn" id="next-btn" title="Next Chapter">Next ▶</button>
+                </div>
+                
+                <!-- Single mode language selector -->
+                <div class="control-group single-lang-control">
+                    <label for="lang-select">Language:</label>
+                    <select id="lang-select">
+                        <option value="ar">العربية (Arabic)</option>
+                        <option value="en">English</option>
+                        <option value="ur">اردو (Urdu)</option>
+                        <option value="fa">فارسی (Farsi)</option>
+                    </select>
+                </div>
+                
+                <div class="control-group single-lang-control">
+                    <label for="font-single">Font:</label>
+                    <select id="font-single" class="font-select">
+                        <option value="small">S</option>
+                        <option value="medium" selected>M</option>
+                        <option value="large">L</option>
+                        <option value="xlarge">XL</option>
+                    </select>
+                </div>
+                
+                <button class="width-toggle single-lang-control" id="width-toggle" title="Toggle full width">↔ Wide</button>
+            </div>
+            
+            <div class="controls-right">
+                <div class="divider"></div>
+                
+                <div class="mode-toggle">
+                    <button class="mode-btn active" id="single-mode-btn" title="Single View">Single</button>
+                    <button class="mode-btn" id="side-mode-btn" title="Side by Side">Side by Side</button>
+                </div>
+                
+                <div class="sync-toggle panel-controls">
+                    <input type="checkbox" id="sync-scroll" checked>
+                    <label for="sync-scroll">Sync Scroll</label>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <main>
+        <!-- Single View -->
+        <div class="single-view">
+            <article class="content-card">
+                <h2 class="chapter-title" id="chapter-title">الفتوحات المكية</h2>
+                <p class="chapter-meta" id="chapter-meta"></p>
+                <div class="content" id="content">
+                    <p class="loading">جاري التحميل... Loading...</p>
+                </div>
+            </article>
+        </div>
+        
+        <!-- Side by Side View -->
+        <div class="side-by-side">
+            <div class="panel font-medium" id="panel-left">
+                <div class="panel-header">
+                    <div style="display: flex; align-items: center; gap: 0.5rem;">
+                        <select id="font-left" class="font-select" title="Font size">
+                            <option value="small">S</option>
+                            <option value="medium" selected>M</option>
+                            <option value="large">L</option>
+                            <option value="xlarge">XL</option>
+                        </select>
+                        <select id="lang-left">
+                            <option value="ar">العربية (Arabic)</option>
+                            <option value="en">English</option>
+                            <option value="ur">اردو (Urdu)</option>
+                            <option value="fa">فارسی (Farsi)</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="panel-content content" id="content-left">
+                    <p class="loading">جاري التحميل...</p>
+                </div>
+            </div>
+            
+            <div class="panel font-medium" id="panel-right">
+                <div class="panel-header">
+                    <div style="display: flex; align-items: center; gap: 0.5rem;">
+                        <select id="font-right" class="font-select" title="Font size">
+                            <option value="small">S</option>
+                            <option value="medium" selected>M</option>
+                            <option value="large">L</option>
+                            <option value="xlarge">XL</option>
+                        </select>
+                        <select id="lang-right">
+                            <option value="ar">العربية (Arabic)</option>
+                            <option value="en" selected>English</option>
+                            <option value="ur">اردو (Urdu)</option>
+                            <option value="fa">فارسی (Farsi)</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="panel-content content" id="content-right">
+                    <p class="loading">Loading...</p>
+                </div>
+            </div>
+        </div>
+    </main>
+    
+    <footer>
+        <p>
+            <strong>الفتوحات المكية</strong> — The Meccan Revelations by Ibn Arabi<br>
+            <small>AI translations for scholarly purposes only.</small>
+        </p>
+    </footer>
+    
+    <script>
+        // State - load from localStorage with defaults
+        let index = null;
+        let currentBaab = null;
+        let currentLang = localStorage.getItem('currentLang') || 'ar';
+        let leftLang = localStorage.getItem('leftLang') || 'ar';
+        let rightLang = localStorage.getItem('rightLang') || 'en';
+        let viewMode = localStorage.getItem('viewMode') || 'single';
+        let syncScroll = localStorage.getItem('syncScroll') !== 'false'; // default true
+        let lastBaabId = parseInt(localStorage.getItem('lastBaabId')) || 0;
+        let isInitialLoad = true; // Flag to restore scroll on first load only
+        let fullWidth = localStorage.getItem('fullWidth') === 'true';
+        let fontSingle = localStorage.getItem('fontSingle') || 'medium';
+        let fontLeft = localStorage.getItem('fontLeft') || 'medium';
+        let fontRight = localStorage.getItem('fontRight') || 'medium';
+        
+        // Debounce timer for scroll saving
+        let scrollSaveTimer = null;
+        
+        // DOM Elements
+        const langSelect = document.getElementById('lang-select');
+        const langLeftSelect = document.getElementById('lang-left');
+        const langRightSelect = document.getElementById('lang-right');
+        const baabSelect = document.getElementById('baab-select');
+        const prevBtn = document.getElementById('prev-btn');
+        const nextBtn = document.getElementById('next-btn');
+        const singleModeBtn = document.getElementById('single-mode-btn');
+        const sideModeBtn = document.getElementById('side-mode-btn');
+        const syncScrollCheckbox = document.getElementById('sync-scroll');
+        
+        // Content elements
+        const chapterTitle = document.getElementById('chapter-title');
+        const chapterMeta = document.getElementById('chapter-meta');
+        const contentDiv = document.getElementById('content');
+        const contentLeft = document.getElementById('content-left');
+        const contentRight = document.getElementById('content-right');
+        const panelLeft = document.getElementById('panel-left');
+        const panelRight = document.getElementById('panel-right');
+        const singleView = document.querySelector('.single-view');
+        const widthToggle = document.getElementById('width-toggle');
+        const fontSingleSelect = document.getElementById('font-single');
+        const fontLeftSelect = document.getElementById('font-left');
+        const fontRightSelect = document.getElementById('font-right');
+        
+        // Language names
+        const langNames = {
+            ar: 'العربية',
+            en: 'English',
+            ur: 'اردو',
+            fa: 'فارسی'
+        };
+        
+        // Initialize
+        async function init() {
+            try {
+                // Load index
+                const response = await fetch('data/index.json');
+                index = await response.json();
+                
+                // Apply stored view mode
+                document.body.className = viewMode === 'single' ? 'single-mode' : 'side-mode';
+                singleModeBtn.classList.toggle('active', viewMode === 'single');
+                sideModeBtn.classList.toggle('active', viewMode === 'side');
+                
+                // Apply stored language selections
+                langSelect.value = currentLang;
+                langLeftSelect.value = leftLang;
+                langRightSelect.value = rightLang;
+                
+                // Apply stored font sizes
+                fontSingleSelect.value = fontSingle;
+                fontLeftSelect.value = fontLeft;
+                fontRightSelect.value = fontRight;
+                singleView.classList.add(`font-${fontSingle}`);
+                panelLeft.className = `panel font-${fontLeft}`;
+                panelRight.className = `panel font-${fontRight}`;
+                
+                // Apply stored width setting
+                if (fullWidth) {
+                    singleView.classList.add('full-width');
+                    widthToggle.classList.add('active');
+                }
+                
+                // Initialize sync scroll checkbox
+                syncScrollCheckbox.checked = syncScroll;
+                
+                // Populate baab dropdown
+                populateBaabSelect();
+                
+                // Load last viewed chapter
+                await loadBaab(lastBaabId);
+                
+                // Event listeners
+                langSelect.addEventListener('change', onSingleLangChange);
+                langLeftSelect.addEventListener('change', onLeftLangChange);
+                langRightSelect.addEventListener('change', onRightLangChange);
+                baabSelect.addEventListener('change', onBaabChange);
+                prevBtn.addEventListener('click', () => navigateBaab(-1));
+                nextBtn.addEventListener('click', () => navigateBaab(1));
+                singleModeBtn.addEventListener('click', () => setViewMode('single'));
+                sideModeBtn.addEventListener('click', () => setViewMode('side'));
+                syncScrollCheckbox.addEventListener('change', (e) => {
+                    syncScroll = e.target.checked;
+                    localStorage.setItem('syncScroll', syncScroll);
+                });
+                
+                // Font size event listeners
+                fontSingleSelect.addEventListener('change', (e) => {
+                    fontSingle = e.target.value;
+                    singleView.className = `single-view font-${fontSingle}` + (fullWidth ? ' full-width' : '');
+                    localStorage.setItem('fontSingle', fontSingle);
+                });
+                fontLeftSelect.addEventListener('change', (e) => {
+                    fontLeft = e.target.value;
+                    updatePanelClass('left');
+                    localStorage.setItem('fontLeft', fontLeft);
+                });
+                fontRightSelect.addEventListener('change', (e) => {
+                    fontRight = e.target.value;
+                    updatePanelClass('right');
+                    localStorage.setItem('fontRight', fontRight);
+                });
+                
+                // Width toggle
+                widthToggle.addEventListener('click', () => {
+                    fullWidth = !fullWidth;
+                    singleView.classList.toggle('full-width', fullWidth);
+                    widthToggle.classList.toggle('active', fullWidth);
+                    localStorage.setItem('fullWidth', fullWidth);
+                });
+                
+                // Sync scroll setup
+                setupSyncScroll();
+                
+                // Track scroll position (debounced)
+                setupScrollTracking();
+                
+                // Keyboard navigation
+                document.addEventListener('keydown', onKeyDown);
+                
+            } catch (error) {
+                console.error('Failed to load index:', error);
+                contentDiv.innerHTML = '<p style="color: red;">Error loading data. Please try again later.</p>';
+            }
+        }
+        
+        function updatePanelClass(panel) {
+            if (panel === 'left') {
+                panelLeft.className = `panel lang-${leftLang} font-${fontLeft}`;
+            } else {
+                panelRight.className = `panel lang-${rightLang} font-${fontRight}`;
+            }
+        }
+        
+        function populateBaabSelect() {
+            const displayLang = viewMode === 'single' ? currentLang : 'ar';
+            baabSelect.innerHTML = index.baabs.map(baab => {
+                const title = baab.title[displayLang] || baab.title.ar;
+                const shortTitle = title.length > 70 ? title.substring(0, 70) + '...' : title;
+                return `<option value="${baab.id}">${baab.id}: ${shortTitle}</option>`;
+            }).join('');
+        }
+        
+        async function loadBaab(id) {
+            // Show loading
+            if (viewMode === 'single') {
+                contentDiv.innerHTML = '<p class="loading">جاري التحميل... Loading...</p>';
+            } else {
+                contentLeft.innerHTML = '<p class="loading">جاري التحميل...</p>';
+                contentRight.innerHTML = '<p class="loading">Loading...</p>';
+            }
+            
+            try {
+                const paddedId = String(id).padStart(3, '0');
+                const response = await fetch(`data/baab_${paddedId}.json`);
+                currentBaab = await response.json();
+                
+                // Save to localStorage
+                saveSettings();
+                
+                // Render content
+                renderContent();
+                
+                // Update dropdown
+                baabSelect.value = id;
+                
+                // Update nav buttons
+                updateNavButtons();
+                
+            } catch (error) {
+                console.error('Failed to load baab:', error);
+                contentDiv.innerHTML = '<p style="color: red;">Error loading chapter. Please try again.</p>';
+            }
+        }
+        
+        function renderContent() {
+            if (!currentBaab) return;
+            
+            if (viewMode === 'single') {
+                renderSingleView();
+            } else {
+                renderSideByView();
+            }
+        }
+        
+        function renderSingleView() {
+            // Update language class while preserving font and width classes
+            let classes = `single-view lang-${currentLang} font-${fontSingle}`;
+            if (fullWidth) classes += ' full-width';
+            singleView.className = classes;
+            
+            // Update title
+            const title = currentBaab.title[currentLang] || currentBaab.title.ar;
+            chapterTitle.textContent = title;
+            document.title = `${title} | الفتوحات المكية`;
+            
+            // Update meta
+            const metaTexts = {
+                ar: `الباب ${currentBaab.id} — ${currentBaab.page_count} صفحة`,
+                en: `Chapter ${currentBaab.id} — ${currentBaab.page_count} pages`,
+                ur: `باب ${currentBaab.id} — ${currentBaab.page_count} صفحات`,
+                fa: `باب ${currentBaab.id} — ${currentBaab.page_count} صفحه`
+            };
+            chapterMeta.textContent = metaTexts[currentLang];
+            
+            // Update content
+            const content = currentBaab.content[currentLang] || currentBaab.content.ar;
+            contentDiv.innerHTML = marked.parse(content);
+            
+            // Restore or reset scroll position
+            if (isInitialLoad) {
+                const savedScroll = parseFloat(localStorage.getItem('scrollPercent')) || 0;
+                requestAnimationFrame(() => {
+                    const maxScroll = document.documentElement.scrollHeight - window.innerHeight;
+                    window.scrollTo({ top: savedScroll * maxScroll, behavior: 'instant' });
+                });
+                isInitialLoad = false;
+            } else {
+                window.scrollTo({ top: 0, behavior: 'smooth' });
+                localStorage.setItem('scrollPercent', '0');
+            }
+        }
+        
+        function renderSideByView() {
+            // Left panel - preserve font class
+            panelLeft.className = `panel lang-${leftLang} font-${fontLeft}`;
+            const leftTitle = currentBaab.title[leftLang] || currentBaab.title.ar;
+            const leftContent = currentBaab.content[leftLang] || currentBaab.content.ar;
+            contentLeft.innerHTML = `<h2 class="chapter-title">${leftTitle}</h2>` + marked.parse(leftContent);
+            
+            // Right panel - preserve font class
+            panelRight.className = `panel lang-${rightLang} font-${fontRight}`;
+            const rightTitle = currentBaab.title[rightLang] || currentBaab.title.ar;
+            const rightContent = currentBaab.content[rightLang] || currentBaab.content.ar;
+            contentRight.innerHTML = `<h2 class="chapter-title">${rightTitle}</h2>` + marked.parse(rightContent);
+            
+            // Update document title
+            document.title = `${currentBaab.title.ar} | الفتوحات المكية`;
+            
+            // Restore or reset scroll position
+            if (isInitialLoad) {
+                const savedScrollLeft = parseFloat(localStorage.getItem('scrollPercentLeft')) || 0;
+                const savedScrollRight = parseFloat(localStorage.getItem('scrollPercentRight')) || 0;
+                // Use setTimeout to ensure DOM is fully rendered
+                setTimeout(() => {
+                    const leftMax = contentLeft.scrollHeight - contentLeft.clientHeight;
+                    const rightMax = contentRight.scrollHeight - contentRight.clientHeight;
+                    contentLeft.scrollTop = savedScrollLeft * leftMax;
+                    contentRight.scrollTop = savedScrollRight * rightMax;
+                }, 50);
+                isInitialLoad = false;
+            } else {
+                contentLeft.scrollTop = 0;
+                contentRight.scrollTop = 0;
+                localStorage.setItem('scrollPercentLeft', '0');
+                localStorage.setItem('scrollPercentRight', '0');
+            }
+        }
+        
+        function setupSyncScroll() {
+            let isScrolling = false;
+            
+            contentLeft.addEventListener('scroll', () => {
+                if (!syncScroll || isScrolling) return;
+                isScrolling = true;
+                
+                const scrollPercent = contentLeft.scrollTop / (contentLeft.scrollHeight - contentLeft.clientHeight);
+                contentRight.scrollTop = scrollPercent * (contentRight.scrollHeight - contentRight.clientHeight);
+                
+                setTimeout(() => isScrolling = false, 50);
+            });
+            
+            contentRight.addEventListener('scroll', () => {
+                if (!syncScroll || isScrolling) return;
+                isScrolling = true;
+                
+                const scrollPercent = contentRight.scrollTop / (contentRight.scrollHeight - contentRight.clientHeight);
+                contentLeft.scrollTop = scrollPercent * (contentLeft.scrollHeight - contentLeft.clientHeight);
+                
+                setTimeout(() => isScrolling = false, 50);
+            });
+        }
+        
+        function setupScrollTracking() {
+            // Save scroll position as percentage (debounced)
+            const saveScrollPosition = () => {
+                clearTimeout(scrollSaveTimer);
+                scrollSaveTimer = setTimeout(() => {
+                    if (viewMode === 'single') {
+                        const maxScroll = document.documentElement.scrollHeight - window.innerHeight;
+                        const scrollPercent = maxScroll > 0 ? window.scrollY / maxScroll : 0;
+                        localStorage.setItem('scrollPercent', scrollPercent.toString());
+                    } else {
+                        // Save both panels separately
+                        const leftMax = contentLeft.scrollHeight - contentLeft.clientHeight;
+                        const rightMax = contentRight.scrollHeight - contentRight.clientHeight;
+                        const leftPercent = leftMax > 0 ? contentLeft.scrollTop / leftMax : 0;
+                        const rightPercent = rightMax > 0 ? contentRight.scrollTop / rightMax : 0;
+                        localStorage.setItem('scrollPercentLeft', leftPercent.toString());
+                        localStorage.setItem('scrollPercentRight', rightPercent.toString());
+                    }
+                }, 200);
+            };
+            
+            // Track window scroll for single mode
+            window.addEventListener('scroll', saveScrollPosition);
+            
+            // Track panel scroll for side-by-side mode (both panels)
+            contentLeft.addEventListener('scroll', saveScrollPosition);
+            contentRight.addEventListener('scroll', saveScrollPosition);
+        }
+        
+        function setViewMode(mode) {
+            viewMode = mode;
+            document.body.className = mode === 'single' ? 'single-mode' : 'side-mode';
+            
+            // Update buttons
+            singleModeBtn.classList.toggle('active', mode === 'single');
+            sideModeBtn.classList.toggle('active', mode === 'side');
+            
+            // Re-render
+            if (currentBaab) {
+                renderContent();
+            }
+            
+            saveSettings();
+        }
+        
+        function updateNavButtons() {
+            const currentId = currentBaab ? currentBaab.id : 0;
+            prevBtn.disabled = currentId <= 0;
+            nextBtn.disabled = currentId >= index.total - 1;
+        }
+        
+        function navigateBaab(delta) {
+            if (!currentBaab) return;
+            const newId = currentBaab.id + delta;
+            if (newId >= 0 && newId < index.total) {
+                loadBaab(newId);
+            }
+        }
+        
+        function onSingleLangChange(e) {
+            currentLang = e.target.value;
+            populateBaabSelect();
+            if (currentBaab) {
+                baabSelect.value = currentBaab.id;
+                renderContent();
+            }
+            saveSettings();
+        }
+        
+        function onLeftLangChange(e) {
+            leftLang = e.target.value;
+            if (currentBaab) renderContent();
+            saveSettings();
+        }
+        
+        function onRightLangChange(e) {
+            rightLang = e.target.value;
+            if (currentBaab) renderContent();
+            saveSettings();
+        }
+        
+        function onBaabChange(e) {
+            loadBaab(parseInt(e.target.value));
+        }
+        
+        function onKeyDown(e) {
+            if (e.target.tagName === 'SELECT') return;
+            
+            if (e.key === 'ArrowLeft') {
+                navigateBaab(1);
+            } else if (e.key === 'ArrowRight') {
+                navigateBaab(-1);
+            }
+        }
+        
+        function saveSettings() {
+            localStorage.setItem('lastBaabId', currentBaab ? currentBaab.id : 0);
+            localStorage.setItem('viewMode', viewMode);
+            localStorage.setItem('currentLang', currentLang);
+            localStorage.setItem('leftLang', leftLang);
+            localStorage.setItem('rightLang', rightLang);
+        }
+        
+        // Start
+        init();
+    </script>
+</body>
+</html>
