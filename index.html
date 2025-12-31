@@ -85,6 +85,81 @@
             top: 0;
             z-index: 100;
             direction: ltr;
+            transition: transform 0.3s ease, opacity 0.3s ease;
+        }
+        
+        /* Mobile collapsed header */
+        .mobile-header {
+            display: none;
+            background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+            color: white;
+            padding: 0.5rem 1rem;
+            position: sticky;
+            top: 0;
+            z-index: 101;
+            direction: ltr;
+        }
+        
+        .mobile-header-content {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 0.5rem;
+        }
+        
+        .mobile-chapter-title {
+            font-family: 'Amiri', serif;
+            font-size: 0.95rem;
+            font-weight: 600;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            flex: 1;
+            text-align: center;
+            direction: rtl;
+        }
+        
+        .mobile-nav-btn {
+            background: rgba(255,255,255,0.2);
+            border: none;
+            color: white;
+            padding: 0.4rem 0.6rem;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 0.9rem;
+            min-width: 36px;
+            min-height: 36px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: background 0.2s;
+        }
+        
+        .mobile-nav-btn:hover {
+            background: rgba(255,255,255,0.3);
+        }
+        
+        .mobile-nav-btn:disabled {
+            opacity: 0.4;
+            cursor: not-allowed;
+        }
+        
+        .expand-btn {
+            background: rgba(255,255,255,0.2);
+            border: none;
+            color: white;
+            padding: 0.4rem 0.6rem;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 0.8rem;
+            display: flex;
+            align-items: center;
+            gap: 0.3rem;
+            transition: background 0.2s;
+        }
+        
+        .expand-btn:hover {
+            background: rgba(255,255,255,0.3);
         }
         
         .controls-inner {
@@ -503,6 +578,36 @@
         
         /* Phablets and small tablets (401px - 768px) */
         @media (max-width: 768px) {
+            /* Collapsible header for phablets */
+            .mobile-header {
+                display: block;
+            }
+            
+            body.controls-collapsed header {
+                display: none;
+            }
+            
+            body.controls-collapsed .controls {
+                transform: translateY(-100%);
+                opacity: 0;
+                pointer-events: none;
+                position: absolute;
+            }
+            
+            body.controls-expanded .mobile-header {
+                display: none;
+            }
+            
+            body.controls-expanded header {
+                display: block;
+            }
+            
+            body.controls-expanded .controls {
+                transform: translateY(0);
+                opacity: 1;
+                pointer-events: auto;
+            }
+            
             header {
                 padding: 0.75rem 1rem;
             }
@@ -592,6 +697,36 @@
             }
             body.side-mode .sync-toggle {
                 display: none;
+            }
+            
+            /* Collapsible header for mobile */
+            .mobile-header {
+                display: block;
+            }
+            
+            body.controls-collapsed header {
+                display: none;
+            }
+            
+            body.controls-collapsed .controls {
+                transform: translateY(-100%);
+                opacity: 0;
+                pointer-events: none;
+                position: absolute;
+            }
+            
+            body.controls-expanded .mobile-header {
+                display: none;
+            }
+            
+            body.controls-expanded header {
+                display: block;
+            }
+            
+            body.controls-expanded .controls {
+                transform: translateY(0);
+                opacity: 1;
+                pointer-events: auto;
             }
             
             header {
@@ -749,6 +884,16 @@
             </div>
         </div>
     </header>
+    
+    <!-- Mobile collapsed header -->
+    <div class="mobile-header" id="mobile-header">
+        <div class="mobile-header-content">
+            <button class="mobile-nav-btn" id="mobile-prev-btn" title="Previous">◀</button>
+            <span class="mobile-chapter-title" id="mobile-chapter-title">الفتوحات المكية</span>
+            <button class="mobile-nav-btn" id="mobile-next-btn" title="Next">▶</button>
+            <button class="expand-btn" id="expand-controls-btn" title="Show controls">☰</button>
+        </div>
+    </div>
     
     <div class="controls">
         <div class="controls-inner">
@@ -1071,6 +1216,9 @@
             chapterTitle.textContent = title;
             document.title = `${title} | الفتوحات المكية`;
             
+            // Update mobile header
+            updateMobileHeader();
+            
             // Update meta
             const metaTexts = {
                 ar: `الباب ${currentBaab.id} — ${currentBaab.page_count} صفحة`,
@@ -1113,6 +1261,9 @@
             
             // Update document title
             document.title = `${currentBaab.title.ar} | الفتوحات المكية`;
+            
+            // Update mobile header
+            updateMobileHeader();
             
             // Restore or reset scroll position
             if (isInitialLoad) {
@@ -1270,9 +1421,82 @@
             }
         }
         
+        // Mobile header collapse functionality
+        const mobileHeader = document.getElementById('mobile-header');
+        const mobileChapterTitle = document.getElementById('mobile-chapter-title');
+        const mobilePrevBtn = document.getElementById('mobile-prev-btn');
+        const mobileNextBtn = document.getElementById('mobile-next-btn');
+        const expandControlsBtn = document.getElementById('expand-controls-btn');
+        
+        let lastScrollY = 0;
+        let isControlsCollapsed = false;
+        const scrollThreshold = 100; // Start collapsing after scrolling 100px
+        
+        function updateMobileHeader() {
+            if (!currentBaab) return;
+            const title = currentBaab.title[currentLang] || currentBaab.title.ar;
+            // Truncate title for mobile header
+            const maxLen = 35;
+            mobileChapterTitle.textContent = title.length > maxLen ? title.substring(0, maxLen) + '...' : title;
+            
+            // Update mobile nav button states
+            const currentId = currentBaab.id;
+            mobilePrevBtn.disabled = currentId <= 0;
+            mobileNextBtn.disabled = currentId >= index.total - 1;
+        }
+        
+        function setControlsCollapsed(collapsed) {
+            if (window.innerWidth > 768) return; // Only on mobile/phablet
+            
+            isControlsCollapsed = collapsed;
+            if (collapsed) {
+                document.body.classList.add('controls-collapsed');
+                document.body.classList.remove('controls-expanded');
+            } else {
+                document.body.classList.remove('controls-collapsed');
+                document.body.classList.add('controls-expanded');
+            }
+        }
+        
+        function handleScrollForMobileHeader() {
+            if (window.innerWidth > 768) {
+                // Reset on larger screens
+                document.body.classList.remove('controls-collapsed', 'controls-expanded');
+                return;
+            }
+            
+            const currentScrollY = window.scrollY;
+            
+            if (currentScrollY > scrollThreshold && currentScrollY > lastScrollY) {
+                // Scrolling down past threshold - collapse
+                setControlsCollapsed(true);
+            } else if (currentScrollY < scrollThreshold || currentScrollY < lastScrollY - 50) {
+                // At top or scrolling up significantly - expand
+                setControlsCollapsed(false);
+            }
+            
+            lastScrollY = currentScrollY;
+        }
+        
+        // Mobile header event listeners
+        mobilePrevBtn.addEventListener('click', () => navigateBaab(-1));
+        mobileNextBtn.addEventListener('click', () => navigateBaab(1));
+        expandControlsBtn.addEventListener('click', () => {
+            setControlsCollapsed(false);
+            // Scroll to top to see full controls
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        });
+        
+        // Scroll listener for mobile header
+        window.addEventListener('scroll', handleScrollForMobileHeader, { passive: true });
+        
         // Listen for resize to handle orientation changes and screen size changes
         window.addEventListener('resize', () => {
             handleNarrowScreen();
+            // Reset collapsed state on resize
+            if (window.innerWidth > 768) {
+                document.body.classList.remove('controls-collapsed', 'controls-expanded');
+            }
         });
         
         // Start
