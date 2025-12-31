@@ -56,6 +56,9 @@
             color: white;
             padding: 1rem 2rem;
             box-shadow: var(--shadow);
+            transition: transform 0.3s ease, opacity 0.3s ease, max-height 0.3s ease;
+            max-height: 200px;
+            overflow: hidden;
         }
         
         .header-content {
@@ -99,7 +102,7 @@
         
         /* Mobile collapsed header */
         .mobile-header {
-            display: none;
+            display: block;
             background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
             color: white;
             padding: 0.5rem 1rem;
@@ -107,6 +110,12 @@
             top: 0;
             z-index: 101;
             direction: ltr;
+            transform: translateY(-100%);
+            opacity: 0;
+            max-height: 0;
+            overflow: hidden;
+            pointer-events: none;
+            transition: transform 0.3s ease, opacity 0.3s ease, max-height 0.3s ease, padding 0.3s ease;
         }
         
         .mobile-header-content {
@@ -587,13 +596,20 @@
         
         /* Phablets and small tablets (401px - 768px) */
         @media (max-width: 768px) {
-            /* Collapsible header for phablets */
+            /* Collapsible header for phablets - smooth transitions */
             .mobile-header {
-                display: block;
+                transform: translateY(0);
+                opacity: 1;
+                max-height: 60px;
+                padding: 0.5rem 1rem;
+                pointer-events: auto;
             }
             
             body.controls-collapsed header {
-                display: none;
+                transform: translateY(-100%);
+                opacity: 0;
+                max-height: 0;
+                pointer-events: none;
             }
             
             body.controls-collapsed .controls {
@@ -604,11 +620,18 @@
             }
             
             body.controls-expanded .mobile-header {
-                display: none;
+                transform: translateY(-100%);
+                opacity: 0;
+                max-height: 0;
+                padding: 0;
+                pointer-events: none;
             }
             
             body.controls-expanded header {
-                display: block;
+                transform: translateY(0);
+                opacity: 1;
+                max-height: 200px;
+                pointer-events: auto;
             }
             
             body.controls-expanded .controls {
@@ -708,13 +731,14 @@
                 display: none;
             }
             
-            /* Collapsible header for mobile */
-            .mobile-header {
-                display: block;
-            }
+            /* Collapsible header for mobile - smooth transitions inherited from 768px breakpoint */
+            /* Mobile header visibility is already set by the 768px media query */
             
             body.controls-collapsed header {
-                display: none;
+                transform: translateY(-100%);
+                opacity: 0;
+                max-height: 0;
+                pointer-events: none;
             }
             
             body.controls-collapsed .controls {
@@ -725,11 +749,18 @@
             }
             
             body.controls-expanded .mobile-header {
-                display: none;
+                transform: translateY(-100%);
+                opacity: 0;
+                max-height: 0;
+                padding: 0;
+                pointer-events: none;
             }
             
             body.controls-expanded header {
-                display: block;
+                transform: translateY(0);
+                opacity: 1;
+                max-height: 200px;
+                pointer-events: auto;
             }
             
             body.controls-expanded .controls {
@@ -1624,24 +1655,43 @@
             }
         }
         
-        function handleScrollForMobileHeader() {
+        // Track scroll positions for both window and panel scrolling
+        let lastPanelScrollY = { left: 0, right: 0 };
+        
+        function handleScrollForMobileHeader(scrollY, lastScrollYValue, isPanel = false, panelKey = null) {
             if (window.innerWidth > 768) {
                 // Reset on larger screens
                 document.body.classList.remove('controls-collapsed', 'controls-expanded');
                 return;
             }
             
-            const currentScrollY = window.scrollY;
-            
-            if (currentScrollY > scrollThreshold && currentScrollY > lastScrollY) {
+            if (scrollY > scrollThreshold && scrollY > lastScrollYValue) {
                 // Scrolling down past threshold - collapse
                 setControlsCollapsed(true);
-            } else if (currentScrollY < scrollThreshold || currentScrollY < lastScrollY - 50) {
+            } else if (scrollY < scrollThreshold || scrollY < lastScrollYValue - 50) {
                 // At top or scrolling up significantly - expand
                 setControlsCollapsed(false);
             }
             
-            lastScrollY = currentScrollY;
+            // Update the appropriate last scroll value
+            if (isPanel && panelKey) {
+                lastPanelScrollY[panelKey] = scrollY;
+            } else {
+                lastScrollY = scrollY;
+            }
+        }
+        
+        // Window scroll handler
+        function handleWindowScroll() {
+            handleScrollForMobileHeader(window.scrollY, lastScrollY);
+        }
+        
+        // Panel scroll handler factory
+        function createPanelScrollHandler(panelKey) {
+            return function(e) {
+                const scrollY = e.target.scrollTop;
+                handleScrollForMobileHeader(scrollY, lastPanelScrollY[panelKey], true, panelKey);
+            };
         }
         
         // Mobile header event listeners
@@ -1651,10 +1701,25 @@
             setControlsCollapsed(false);
             // Scroll to top to see full controls
             window.scrollTo({ top: 0, behavior: 'smooth' });
+            // Also scroll panels to top if in side-by-side mode
+            const contentLeft = document.getElementById('content-left');
+            const contentRight = document.getElementById('content-right');
+            if (contentLeft) contentLeft.scrollTop = 0;
+            if (contentRight) contentRight.scrollTop = 0;
         });
         
-        // Scroll listener for mobile header
-        window.addEventListener('scroll', handleScrollForMobileHeader, { passive: true });
+        // Scroll listener for window (single view mode)
+        window.addEventListener('scroll', handleWindowScroll, { passive: true });
+        
+        // Scroll listeners for panel content (side-by-side mode)
+        const contentLeftPanel = document.getElementById('content-left');
+        const contentRightPanel = document.getElementById('content-right');
+        if (contentLeftPanel) {
+            contentLeftPanel.addEventListener('scroll', createPanelScrollHandler('left'), { passive: true });
+        }
+        if (contentRightPanel) {
+            contentRightPanel.addEventListener('scroll', createPanelScrollHandler('right'), { passive: true });
+        }
         
         // Listen for resize to handle orientation changes and screen size changes
         window.addEventListener('resize', () => {
