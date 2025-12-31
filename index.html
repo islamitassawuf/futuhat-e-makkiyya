@@ -1644,6 +1644,7 @@
         
         function setControlsCollapsed(collapsed) {
             if (window.innerWidth > 768) return; // Only on mobile/phablet
+            if (isControlsCollapsed === collapsed) return; // Already in desired state
             
             isControlsCollapsed = collapsed;
             if (collapsed) {
@@ -1657,6 +1658,8 @@
         
         // Track scroll positions for both window and panel scrolling
         let lastPanelScrollY = { left: 0, right: 0 };
+        let scrollDebounceTimer = null;
+        let isScrolling = false;
         
         function handleScrollForMobileHeader(scrollY, lastScrollYValue, isPanel = false, panelKey = null) {
             if (window.innerWidth > 768) {
@@ -1665,10 +1668,28 @@
                 return;
             }
             
-            if (scrollY > scrollThreshold && scrollY > lastScrollYValue) {
+            // Calculate scroll delta
+            const scrollDelta = scrollY - lastScrollYValue;
+            
+            // Only react to significant scroll movements to avoid jitter
+            if (Math.abs(scrollDelta) < 5) {
+                // Update last scroll value but don't change state
+                if (isPanel && panelKey) {
+                    lastPanelScrollY[panelKey] = scrollY;
+                } else {
+                    lastScrollY = scrollY;
+                }
+                return;
+            }
+            
+            // Debounce to prevent rapid state changes
+            if (isScrolling) return;
+            isScrolling = true;
+            
+            if (scrollY > scrollThreshold && scrollDelta > 0) {
                 // Scrolling down past threshold - collapse
                 setControlsCollapsed(true);
-            } else if (scrollY < scrollThreshold || scrollY < lastScrollYValue - 50) {
+            } else if (scrollY < scrollThreshold / 2 || scrollDelta < -30) {
                 // At top or scrolling up significantly - expand
                 setControlsCollapsed(false);
             }
@@ -1679,6 +1700,12 @@
             } else {
                 lastScrollY = scrollY;
             }
+            
+            // Reset scrolling flag after a short delay
+            clearTimeout(scrollDebounceTimer);
+            scrollDebounceTimer = setTimeout(() => {
+                isScrolling = false;
+            }, 100);
         }
         
         // Window scroll handler
