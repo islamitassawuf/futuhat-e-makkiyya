@@ -6,6 +6,15 @@
     <title>الفتوحات المكية | Al-Futuhat al-Makkiyya</title>
     <meta name="description" content="The Meccan Revelations by Shaykh al-Akbar Muhyi al-Din Ibn Arabi - Multi-language edition">
     
+    <!-- PWA / Install as App -->
+    <link rel="manifest" href="manifest.json">
+    <meta name="theme-color" content="#1e3a5f">
+    <meta name="mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <meta name="apple-mobile-web-app-title" content="Futuhat">
+    <link rel="apple-touch-icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 512 512'><rect fill='%231e3a5f' width='512' height='512' rx='64'/><text x='256' y='320' font-size='280' text-anchor='middle' fill='%23e6a817' font-family='serif'>ف</text></svg>">
+    
     <!-- Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -873,6 +882,138 @@
                 padding: 0.6rem 1rem;
             }
         }
+        
+        /* Install App Button */
+        .install-btn {
+            font-family: var(--ui-font);
+            font-size: 0.8rem;
+            padding: 0.4rem 0.8rem;
+            border: 1px solid rgba(255,255,255,0.3);
+            border-radius: 8px;
+            background: rgba(255,255,255,0.15);
+            color: white;
+            cursor: pointer;
+            transition: all 0.2s;
+            font-weight: 500;
+            display: none;
+            align-items: center;
+            gap: 0.4rem;
+        }
+        
+        .install-btn:hover {
+            background: rgba(255,255,255,0.25);
+            border-color: rgba(255,255,255,0.5);
+        }
+        
+        .install-btn.visible {
+            display: flex;
+        }
+        
+        .install-btn svg {
+            width: 16px;
+            height: 16px;
+        }
+        
+        /* Install prompt modal */
+        .install-modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0,0,0,0.6);
+            z-index: 1000;
+            align-items: center;
+            justify-content: center;
+            padding: 1rem;
+        }
+        
+        .install-modal.visible {
+            display: flex;
+        }
+        
+        .install-modal-content {
+            background: white;
+            border-radius: 16px;
+            padding: 1.5rem;
+            max-width: 400px;
+            width: 100%;
+            text-align: center;
+            box-shadow: 0 10px 40px rgba(0,0,0,0.3);
+            direction: ltr;
+        }
+        
+        .install-modal h3 {
+            font-family: var(--ui-font);
+            font-size: 1.2rem;
+            color: var(--primary-color);
+            margin-bottom: 0.75rem;
+        }
+        
+        .install-modal p {
+            font-family: var(--ui-font);
+            font-size: 0.9rem;
+            color: #4a5568;
+            margin-bottom: 1rem;
+            line-height: 1.5;
+        }
+        
+        .install-modal .platform-instructions {
+            background: #f7f9fc;
+            border-radius: 8px;
+            padding: 1rem;
+            margin-bottom: 1rem;
+            text-align: left;
+        }
+        
+        .install-modal .platform-instructions ol {
+            margin: 0;
+            padding-left: 1.25rem;
+            font-family: var(--ui-font);
+            font-size: 0.85rem;
+            color: #4a5568;
+        }
+        
+        .install-modal .platform-instructions li {
+            margin-bottom: 0.5rem;
+        }
+        
+        .install-modal-buttons {
+            display: flex;
+            gap: 0.75rem;
+            justify-content: center;
+        }
+        
+        .install-modal-btn {
+            font-family: var(--ui-font);
+            font-size: 0.9rem;
+            padding: 0.6rem 1.25rem;
+            border-radius: 8px;
+            cursor: pointer;
+            font-weight: 500;
+            transition: all 0.2s;
+        }
+        
+        .install-modal-btn.primary {
+            background: var(--primary-color);
+            color: white;
+            border: none;
+        }
+        
+        .install-modal-btn.primary:hover {
+            background: var(--secondary-color);
+        }
+        
+        .install-modal-btn.secondary {
+            background: white;
+            color: var(--text-color);
+            border: 1px solid var(--border-color);
+        }
+        
+        .install-modal-btn.secondary:hover {
+            background: #f7f9fc;
+        }
     </style>
 </head>
 <body class="single-mode">
@@ -882,8 +1023,33 @@
                 <h1>الفتوحات المكية</h1>
                 <p class="subtitle">The Meccan Revelations — Ibn Arabi (d. 638 AH / 1240 CE)</p>
             </div>
+            <button class="install-btn" id="install-btn" title="Install App">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <path d="M12 5v14M5 12l7 7 7-7"/>
+                    <path d="M5 19h14"/>
+                </svg>
+                Install
+            </button>
         </div>
     </header>
+    
+    <!-- Install Modal for iOS/Safari -->
+    <div class="install-modal" id="install-modal">
+        <div class="install-modal-content">
+            <h3>📱 Install App</h3>
+            <p id="install-instructions-text">Add this app to your home screen for the best experience.</p>
+            <div class="platform-instructions" id="platform-instructions">
+                <ol id="install-steps">
+                    <li>Tap the <strong>Share</strong> button in your browser</li>
+                    <li>Select <strong>"Add to Home Screen"</strong></li>
+                    <li>Tap <strong>Add</strong> to confirm</li>
+                </ol>
+            </div>
+            <div class="install-modal-buttons">
+                <button class="install-modal-btn secondary" id="install-modal-close">Close</button>
+            </div>
+        </div>
+    </div>
     
     <!-- Mobile collapsed header -->
     <div class="mobile-header" id="mobile-header">
@@ -1498,6 +1664,127 @@
                 document.body.classList.remove('controls-collapsed', 'controls-expanded');
             }
         });
+        
+        // ============================================
+        // PWA Install functionality
+        // ============================================
+        
+        const installBtn = document.getElementById('install-btn');
+        const installModal = document.getElementById('install-modal');
+        const installModalClose = document.getElementById('install-modal-close');
+        const installSteps = document.getElementById('install-steps');
+        const installInstructionsText = document.getElementById('install-instructions-text');
+        
+        let deferredPrompt = null;
+        
+        // Detect platform
+        function getPlatform() {
+            const ua = navigator.userAgent;
+            if (/iPad|iPhone|iPod/.test(ua)) return 'ios';
+            if (/Android/.test(ua)) return 'android';
+            if (/Mac/.test(ua)) return 'mac';
+            if (/Win/.test(ua)) return 'windows';
+            return 'other';
+        }
+        
+        // Check if already installed as PWA
+        function isStandalone() {
+            return window.matchMedia('(display-mode: standalone)').matches || 
+                   window.navigator.standalone === true;
+        }
+        
+        // Update install instructions based on platform
+        function updateInstallInstructions() {
+            const platform = getPlatform();
+            
+            if (platform === 'ios') {
+                installSteps.innerHTML = `
+                    <li>Tap the <strong>Share</strong> button <span style="font-size:1.1em">⬆️</span> at the bottom of Safari</li>
+                    <li>Scroll down and tap <strong>"Add to Home Screen"</strong></li>
+                    <li>Tap <strong>Add</strong> in the top right corner</li>
+                `;
+            } else if (platform === 'android') {
+                installSteps.innerHTML = `
+                    <li>Tap the <strong>Menu</strong> button <span style="font-size:1.1em">⋮</span> in your browser</li>
+                    <li>Tap <strong>"Add to Home screen"</strong> or <strong>"Install app"</strong></li>
+                    <li>Tap <strong>Add</strong> to confirm</li>
+                `;
+            } else if (platform === 'mac') {
+                installSteps.innerHTML = `
+                    <li>Click the <strong>Share</strong> button in Safari or the install icon in Chrome</li>
+                    <li>Select <strong>"Add to Dock"</strong> (Safari) or <strong>"Install"</strong> (Chrome)</li>
+                    <li>Click <strong>Add</strong> to confirm</li>
+                `;
+            } else {
+                installSteps.innerHTML = `
+                    <li>Click the <strong>Install</strong> icon in your browser's address bar</li>
+                    <li>Or use the browser menu and select <strong>"Install App"</strong></li>
+                    <li>Click <strong>Install</strong> to confirm</li>
+                `;
+            }
+        }
+        
+        // Show install button
+        function showInstallButton() {
+            if (!isStandalone()) {
+                installBtn.classList.add('visible');
+            }
+        }
+        
+        // Handle beforeinstallprompt (Chrome, Edge, etc.)
+        window.addEventListener('beforeinstallprompt', (e) => {
+            e.preventDefault();
+            deferredPrompt = e;
+            showInstallButton();
+        });
+        
+        // For browsers without beforeinstallprompt (Safari, Firefox)
+        if (!('BeforeInstallPromptEvent' in window)) {
+            // Show install button for manual instructions
+            setTimeout(showInstallButton, 1000);
+        }
+        
+        // Install button click handler
+        installBtn.addEventListener('click', async () => {
+            if (deferredPrompt) {
+                // Use native install prompt
+                deferredPrompt.prompt();
+                const { outcome } = await deferredPrompt.userChoice;
+                if (outcome === 'accepted') {
+                    installBtn.classList.remove('visible');
+                }
+                deferredPrompt = null;
+            } else {
+                // Show manual instructions modal
+                updateInstallInstructions();
+                installModal.classList.add('visible');
+            }
+        });
+        
+        // Close modal
+        installModalClose.addEventListener('click', () => {
+            installModal.classList.remove('visible');
+        });
+        
+        // Close modal on background click
+        installModal.addEventListener('click', (e) => {
+            if (e.target === installModal) {
+                installModal.classList.remove('visible');
+            }
+        });
+        
+        // Hide button when app is installed
+        window.addEventListener('appinstalled', () => {
+            installBtn.classList.remove('visible');
+            deferredPrompt = null;
+        });
+        
+        // Register Service Worker
+        if ('serviceWorker' in navigator) {
+            navigator.serviceWorker.register('./sw.js')
+                .then(reg => console.log('Service Worker registered'))
+                .catch(err => console.log('Service Worker registration failed:', err));
+        }
         
         // Start
         init();
