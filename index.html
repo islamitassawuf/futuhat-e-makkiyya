@@ -56,9 +56,6 @@
             color: white;
             padding: 1rem 2rem;
             box-shadow: var(--shadow);
-            transition: transform 0.3s ease, opacity 0.3s ease, max-height 0.3s ease;
-            max-height: 200px;
-            overflow: hidden;
         }
         
         .header-content {
@@ -102,7 +99,7 @@
         
         /* Mobile collapsed header */
         .mobile-header {
-            display: block;
+            display: none;
             background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
             color: white;
             padding: 0.5rem 1rem;
@@ -110,12 +107,6 @@
             top: 0;
             z-index: 101;
             direction: ltr;
-            transform: translateY(-100%);
-            opacity: 0;
-            max-height: 0;
-            overflow: hidden;
-            pointer-events: none;
-            transition: transform 0.3s ease, opacity 0.3s ease, max-height 0.3s ease, padding 0.3s ease;
         }
         
         .mobile-header-content {
@@ -596,48 +587,29 @@
         
         /* Phablets and small tablets (401px - 768px) */
         @media (max-width: 768px) {
-            /* Collapsible header for phablets - smooth transitions */
+            /* Collapsible header for phablets */
             .mobile-header {
-                transform: translateY(0);
-                opacity: 1;
-                max-height: 60px;
-                padding: 0.5rem 1rem;
-                pointer-events: auto;
+                display: block;
             }
             
             body.controls-collapsed header {
-                transform: translateY(-100%);
-                opacity: 0;
-                max-height: 0;
-                pointer-events: none;
+                display: none;
             }
             
             body.controls-collapsed .controls {
-                transform: translateY(-100%);
-                opacity: 0;
-                pointer-events: none;
-                position: absolute;
+                display: none;
             }
             
             body.controls-expanded .mobile-header {
-                transform: translateY(-100%);
-                opacity: 0;
-                max-height: 0;
-                padding: 0;
-                pointer-events: none;
+                display: none;
             }
             
             body.controls-expanded header {
-                transform: translateY(0);
-                opacity: 1;
-                max-height: 200px;
-                pointer-events: auto;
+                display: block;
             }
             
             body.controls-expanded .controls {
-                transform: translateY(0);
-                opacity: 1;
-                pointer-events: auto;
+                display: block;
             }
             
             header {
@@ -731,43 +703,7 @@
                 display: none;
             }
             
-            /* Collapsible header for mobile - smooth transitions inherited from 768px breakpoint */
-            /* Mobile header visibility is already set by the 768px media query */
-            
-            body.controls-collapsed header {
-                transform: translateY(-100%);
-                opacity: 0;
-                max-height: 0;
-                pointer-events: none;
-            }
-            
-            body.controls-collapsed .controls {
-                transform: translateY(-100%);
-                opacity: 0;
-                pointer-events: none;
-                position: absolute;
-            }
-            
-            body.controls-expanded .mobile-header {
-                transform: translateY(-100%);
-                opacity: 0;
-                max-height: 0;
-                padding: 0;
-                pointer-events: none;
-            }
-            
-            body.controls-expanded header {
-                transform: translateY(0);
-                opacity: 1;
-                max-height: 200px;
-                pointer-events: auto;
-            }
-            
-            body.controls-expanded .controls {
-                transform: translateY(0);
-                opacity: 1;
-                pointer-events: auto;
-            }
+            /* Collapsible header for mobile - inherited from 768px breakpoint */
             
             header {
                 padding: 0.5rem 0.75rem;
@@ -1658,8 +1594,6 @@
         
         // Track scroll positions for both window and panel scrolling
         let lastPanelScrollY = { left: 0, right: 0 };
-        let scrollDebounceTimer = null;
-        let isScrolling = false;
         
         function handleScrollForMobileHeader(scrollY, lastScrollYValue, isPanel = false, panelKey = null) {
             if (window.innerWidth > 768) {
@@ -1668,28 +1602,10 @@
                 return;
             }
             
-            // Calculate scroll delta
-            const scrollDelta = scrollY - lastScrollYValue;
-            
-            // Only react to significant scroll movements to avoid jitter
-            if (Math.abs(scrollDelta) < 5) {
-                // Update last scroll value but don't change state
-                if (isPanel && panelKey) {
-                    lastPanelScrollY[panelKey] = scrollY;
-                } else {
-                    lastScrollY = scrollY;
-                }
-                return;
-            }
-            
-            // Debounce to prevent rapid state changes
-            if (isScrolling) return;
-            isScrolling = true;
-            
-            if (scrollY > scrollThreshold && scrollDelta > 0) {
+            if (scrollY > scrollThreshold && scrollY > lastScrollYValue) {
                 // Scrolling down past threshold - collapse
                 setControlsCollapsed(true);
-            } else if (scrollY < scrollThreshold / 2 || scrollDelta < -30) {
+            } else if (scrollY < scrollThreshold || scrollY < lastScrollYValue - 50) {
                 // At top or scrolling up significantly - expand
                 setControlsCollapsed(false);
             }
@@ -1700,12 +1616,6 @@
             } else {
                 lastScrollY = scrollY;
             }
-            
-            // Reset scrolling flag after a short delay
-            clearTimeout(scrollDebounceTimer);
-            scrollDebounceTimer = setTimeout(() => {
-                isScrolling = false;
-            }, 100);
         }
         
         // Window scroll handler
